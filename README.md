@@ -17,7 +17,7 @@ pip install -r requirements.txt
 Run the server with:
 
 ```
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 ```
 
 ## Using FastAPI example on a Docker container:
