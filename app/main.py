@@ -1,8 +1,8 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-from typing import Annotated, Union
+from typing import Annotated, Union, Optional
 from pathlib import Path
 
 import uvicorn
@@ -71,12 +71,12 @@ def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
 @app.post("/filesize/")
-async def create_file(file: Annotated[bytes, File()]):
+async def create_file(file: Annotated[bytes, File(...)]):
     return {"file_size": len(file)}
 
 @app.post("/uploadfile/")
-async def create_upload_file(file: UploadFile):
-    return {"filename": file.filename}
+async def create_upload_file(file: UploadFile = File(...), metadata: Optional[str] = Form(None)):
+    return {"filename": file.filename, "metadata": metadata}
 
 
 @app.get("/firmwareUploader/")
